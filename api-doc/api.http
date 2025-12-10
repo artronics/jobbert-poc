@@ -1,0 +1,23 @@
+### Health
+GET http://{{domain}}:{{port}}/health
+
+### Get all SOC job titles
+GET http://{{domain}}:{{port}}/socs
+
+### Match job titles to SOC codes
+GET http://{{domain}}:{{port}}/match/socs?q=Software Engineer
+#GET http://{{domain}}:{{port}}/match/socs?q=warehouse labourer
+#GET http://{{domain}}:{{port}}/match/socs?q=warehouse
+
+### Match job titles to SOC codes - extra info
+GET http://{{domain}}:{{port}}/match/socs?q=Acme INC, [parttime] Software Engineer (permanent), remote|hybrid
+
+
+### Get SOC title from job advert
+POST http://{{domain}}:{{port}}/match/socs
+Content-Type: application/json
+
+#< ./adverts/stock-controller.json
+#< ./adverts/main-sorter.json
+< ./adverts/venue-supervisor.json
+

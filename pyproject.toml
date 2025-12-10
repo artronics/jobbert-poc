@@ -1,0 +1,29 @@
+[project]
+name = "dwp-llm-poc"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Jalal Hosseini",email = "jhosseini.dev@gmail.com"}
+]
+
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "sentence-transformers (>=5.1.2,<6.0.0)",
+    "fastapi (>=0.124.0,<0.125.0)",
+    "uvicorn (>=0.38.0,<0.39.0)",
+    "numpy (>=2.3.5,<3.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "kagglehub (>=0.3.13,<0.4.0)"
+]
+[tool.poetry]
+packages = [
+    { include = "*.py", from = "src" },
+    { include = "*.py", from = "scripts"},
+    { include = "*.json", from = "data"},
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
