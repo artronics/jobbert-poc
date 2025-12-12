@@ -5,4 +5,4 @@ tasks:
     cmds:
       - mkdir -p .cache
       - poetry install
-      - poetry run python scripts/download_model.py
+      - poetry run python scripts/download_models.py

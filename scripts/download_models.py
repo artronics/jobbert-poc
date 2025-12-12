@@ -8,7 +8,7 @@ MODELS = [
 ]
 
 
-def download_model(model_data: object):
+def download_model(model_data: dict):
     destination = CACHE_PATH / model_data["name"]
 
     print(f"Downloading {model_data['path']} to {destination}...")

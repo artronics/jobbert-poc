@@ -3,19 +3,26 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
 
+import kagglehub
 import numpy as np
 import pandas as pd
 from numpy.typing import NDArray
-from data_types import Advert, JobTitle
 
-import kagglehub
 from cache import Cache
+from data_types import Advert
 
 DATA_PATH = Path(__file__).parent.parent / "data"
 SOC_TITLES = DATA_PATH / "soc_titles_cleaned.json"
 _SOCS = json.load(SOC_TITLES.open())
 
 cache = Cache()
+
+
+def _sort_and_cleanup(data: NDArray) -> NDArray:
+    unique = np.unique(data)
+    sorted_indices = np.argsort([len(item) for item in unique])
+    length_sorted = [unique[i] for i in sorted_indices]
+    return np.array(length_sorted)
 
 
 @dataclass
@@ -37,15 +44,23 @@ def get_soc_dataset():
     return BaseDataset("soc_titles", job_titles)
 
 
+def get_skills_dataset() -> BaseDataset:
+    skills_path = DATA_PATH / "skills_10k_cleaned.json"
+    with open(skills_path, "r") as f:
+        skills = json.load(f)
+
+    arr = np.array(skills, dtype=str)
+    cache.set("skills_10k", arr)
+
+    return BaseDataset("skills_10k", arr)
+
+
 def get_job_adverts_dataset() -> BaseDataset:
     ds_name = "ds_armenian_online_job_postings"
     if cache.exists(ds_name):
         adverts = cache.get(ds_name)
         BaseDataset(ds_name, adverts)
 
-    # Using kagglehub to download the dataset used to work but
-    # it stopped working at some point. It seems some network issue that is causing the error.
-    # You can download it directly from https://www.kaggle.com/datasets/udacity/armenian-online-job-postings?resource=download
     path = kagglehub.dataset_download("udacity/armenian-online-job-postings")
     df = pd.read_csv(f"{path}/online-job-postings.csv")
 
@@ -91,7 +106,9 @@ def filter_by_keywords(data: NDArray, keywords: List[str], case_sensitive: bool 
 
 
 if __name__ == "__main__":
-    socs = get_soc_dataset()
-    jobs = get_job_adverts_dataset()
-    matches = filter_by_keywords(jobs.dataset, ["Embedded",  "system", "c++", "electronics"])
-    print(socs.choice())
+    # socs = get_soc_dataset()
+    # jobs = get_job_adverts_dataset()
+    # matches = filter_by_keywords(jobs.dataset, ["Embedded",  "system", "c++"])
+    get_skills_dataset()
+    # print(matches[0][1])
+    # print(socs.choice())

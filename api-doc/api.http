@@ -5,12 +5,21 @@ GET http://{{domain}}:{{port}}/health
 GET http://{{domain}}:{{port}}/socs
 
 ### Match job titles to SOC codes
-GET http://{{domain}}:{{port}}/match/socs?q=Software Engineer
+GET http://{{domain}}:{{port}}/match/socs?q=Software Eng
 #GET http://{{domain}}:{{port}}/match/socs?q=warehouse labourer
 #GET http://{{domain}}:{{port}}/match/socs?q=warehouse
 
 ### Match job titles to SOC codes - extra info
 GET http://{{domain}}:{{port}}/match/socs?q=Acme INC, [parttime] Software Engineer (permanent), remote|hybrid
+
+### Extract skills
+POST http://{{domain}}:{{port}}/match/skills?limit=20
+Content-Type: application/json
+
+#< ./adverts/venue-supervisor.json
+#< ./adverts/stock-controller.json
+#< ./adverts/mail-sorter.json
+< ./adverts/software-dev.json
 
 
 ### Get SOC title from job advert

@@ -21,7 +21,6 @@ dependencies = [
 packages = [
     { include = "*.py", from = "src" },
     { include = "*.py", from = "scripts"},
-    { include = "*.json", from = "data"},
 ]
 
 [build-system]

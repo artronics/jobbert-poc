@@ -15,6 +15,9 @@ class Advert:
     title: str
     contents: List[str]
 
+    def __str__(self):
+        return f"Title: {self.title}\n{"\n".join(self.contents)}\n"
+
 
 class Matching:
     """Response object contains **sorted** titles. Scores are provided as a separate list."""
@@ -58,4 +61,16 @@ class SocJobAdvertMatching:
     def as_dict(self):
         return {
             'soc_titles': self.soc_titles,
+        }
+
+@dataclass
+class SkillsJobAdvertMatching:
+    skills: List[str]
+
+    def __init__(self, skills: List[str]):
+        self.skills = skills
+
+    def as_dict(self):
+        return {
+            'skills': self.skills,
         }
